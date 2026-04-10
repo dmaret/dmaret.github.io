@@ -54,6 +54,17 @@
   if(darkOn)applyDark(true);
   document.body.appendChild(dm);
 
+  // === REMOVE EXISTING SHORT COPYRIGHT FOOTERS ===
+  var allDivs=document.querySelectorAll('div,p,.copyright-bar');
+  for(var i=0;i<allDivs.length;i++){
+    var el=allDivs[i];
+    var txt=el.textContent||'';
+    if(txt.indexOf('MARET Davie')!==-1&&txt.indexOf('Tous droits')!==-1&&txt.indexOf('Conditions')===-1){
+      if(el.offsetHeight<80)el.style.display='none';
+    }
+    if(el.classList&&el.classList.contains('copyright-bar'))el.style.display='none';
+  }
+
   // === FOOTER LEGAL ===
   var d=document.createElement('div');
   d.style.cssText='text-align:center;padding:24px 20px;font-size:10px;color:#a89e90;line-height:1.6;border-top:0.5px solid #d4cfc5;margin-top:40px;background:#f5f2ec;';
