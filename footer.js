@@ -1,4 +1,4 @@
-// dmaret™ shared toolkit — © 2025–2026
+// dmaret™ shared toolkit v3 — © 2025–2026
 // Ajouter <script src="https://dmaret.github.io/footer.js"></script> avant </body>
 (function(){
   var isPortal=location.hostname==='dmaret.github.io'&&(location.pathname==='/'||location.pathname==='/index.html');
@@ -56,20 +56,27 @@
 
   // === REMOVE EXISTING SHORT COPYRIGHT FOOTERS ===
   function cleanDuplicateFooters(){
-    var allEls=document.querySelectorAll('div,p,span,.copyright-bar');
-    for(var i=0;i<allEls.length;i++){
-      var el=allEls[i];
+    var all=document.body.getElementsByTagName('*');
+    for(var i=0;i<all.length;i++){
+      var el=all[i];
       if(el.id==='dmaret-footer')continue;
+      if(el.children&&el.children.length>3)continue;
       var txt=el.textContent||'';
-      if(txt.indexOf('MARET Davie')!==-1&&txt.indexOf('droits')!==-1&&txt.indexOf('Conditions')===-1&&txt.length<250){
+      var hasMaret=txt.indexOf('MARET')!==-1;
+      var hasDroits=txt.indexOf('droits')!==-1||txt.indexOf('reproduction')!==-1;
+      var hasConditions=txt.indexOf('Conditions')!==-1;
+      var isShort=txt.length<300;
+      if(hasMaret&&hasDroits&&!hasConditions&&isShort){
         el.style.display='none';
       }
-      if(el.classList&&el.classList.contains('copyright-bar'))el.style.display='none';
     }
+    var bars=document.querySelectorAll('.copyright-bar');
+    for(var j=0;j<bars.length;j++)bars[j].style.display='none';
   }
   cleanDuplicateFooters();
-  setTimeout(cleanDuplicateFooters,500);
-  setTimeout(cleanDuplicateFooters,2000);
+  setTimeout(cleanDuplicateFooters,1000);
+  setTimeout(cleanDuplicateFooters,3000);
+  setTimeout(cleanDuplicateFooters,6000);
 
   // === FOOTER LEGAL ===
   var d=document.createElement('div');
