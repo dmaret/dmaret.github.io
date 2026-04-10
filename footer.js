@@ -25,6 +25,31 @@
       var cs=window.getComputedStyle(header);
       if(!cs.backgroundColor||cs.backgroundColor==='rgba(0, 0, 0, 0)')header.style.background='#fff';
     }
+    // Make info-box elements collapsible inside header
+    var infoBoxes=header.querySelectorAll('.info-box');
+    for(var ib=0;ib<infoBoxes.length;ib++){
+      var box=infoBoxes[ib];
+      box.style.overflow='hidden';
+      box.style.maxHeight='0';
+      box.style.padding='0';
+      box.style.margin='0';
+      box.style.transition='max-height .3s ease,padding .3s ease,margin .3s ease';
+      box.style.borderWidth='0';
+      var toggleBtn=document.createElement('button');
+      toggleBtn.textContent='\u2139\ufe0f Infos / Mode d\u2019emploi';
+      toggleBtn.style.cssText='background:none;border:1px solid #ccc;border-radius:6px;padding:4px 12px;font-size:11px;cursor:pointer;color:#888;margin:6px 0;font-family:inherit;transition:all .2s;';
+      toggleBtn.onmouseover=function(){this.style.borderColor='#999';this.style.color='#555';};
+      toggleBtn.onmouseout=function(){this.style.borderColor='#ccc';this.style.color='#888';};
+      (function(b,t){
+        var open=false;
+        t.onclick=function(){
+          open=!open;
+          if(open){b.style.maxHeight='500px';b.style.padding='';b.style.margin='';b.style.borderWidth='';}
+          else{b.style.maxHeight='0';b.style.padding='0';b.style.margin='0';b.style.borderWidth='0';}
+        };
+      })(box,toggleBtn);
+      box.parentNode.insertBefore(toggleBtn,box);
+    }
     // Fix parents with overflow that breaks sticky
     var stickyEl=hasTabs?wrap:header;
     var parent=stickyEl.parentElement;
