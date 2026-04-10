@@ -164,5 +164,6 @@ function toggleSource(){
 async function main(){const grid=document.getElementById('grid'),status=document.getElementById('status'),updateInfo=document.getElementById('update-info');try{const repos=await fetchRepos();const found=repos.filter(r=>r.has_pages);const lastCommit=await getLastCommit();if(lastCommit){const commitDate=new Date(lastCommit.commit.author.date);const dateStr=commitDate.toLocaleDateString('fr-FR',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});updateInfo.innerHTML=`<strong>Dernière modification :</strong> ${lastCommit.commit.message}<br><small>Par ${lastCommit.commit.author.name} · ${dateStr} · ${ago(lastCommit.commit.author.date)}</small>`;}grid.innerHTML=found.length?found.map(r=>{const url=r.name===`${U}.github.io`?`https://${U}.github.io/`:`https://${U}.github.io/${r.name}/`;return card(r,url);}).join(''):'<div class="empty">Aucun projet avec GitHub Pages trouvé.</div>';status.textContent=found.length?`${found.length} projet(s) avec GitHub Pages`:'';} catch(e){grid.innerHTML=`<div class="empty">Erreur: ${e.message}</div>`;status.textContent='';}}
 main();
 </script>
+<script src="footer.js"></script>
 </body>
 </html>
