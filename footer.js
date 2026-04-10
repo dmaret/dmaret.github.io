@@ -55,19 +55,25 @@
   document.body.appendChild(dm);
 
   // === REMOVE EXISTING SHORT COPYRIGHT FOOTERS ===
-  var allEls=document.querySelectorAll('div,p,.copyright-bar');
-  for(var i=0;i<allEls.length;i++){
-    var el=allEls[i];
-    var txt=el.textContent||'';
-    // Hide short copyright lines (not the full conditions block)
-    if(txt.indexOf('MARET Davie')!==-1&&txt.indexOf('Tous droits')!==-1&&txt.indexOf('Conditions d')===-1&&txt.length<300){
-      el.style.display='none';
+  function cleanDuplicateFooters(){
+    var allEls=document.querySelectorAll('div,p,span,.copyright-bar');
+    for(var i=0;i<allEls.length;i++){
+      var el=allEls[i];
+      if(el.id==='dmaret-footer')continue;
+      var txt=el.textContent||'';
+      if(txt.indexOf('MARET Davie')!==-1&&txt.indexOf('droits')!==-1&&txt.indexOf('Conditions')===-1&&txt.length<250){
+        el.style.display='none';
+      }
+      if(el.classList&&el.classList.contains('copyright-bar'))el.style.display='none';
     }
-    if(el.classList&&el.classList.contains('copyright-bar'))el.style.display='none';
   }
+  cleanDuplicateFooters();
+  setTimeout(cleanDuplicateFooters,500);
+  setTimeout(cleanDuplicateFooters,2000);
 
   // === FOOTER LEGAL ===
   var d=document.createElement('div');
+  d.id='dmaret-footer';
   d.style.cssText='text-align:center;padding:24px 20px;font-size:10px;color:#a89e90;line-height:1.6;border-top:0.5px solid #d4cfc5;margin-top:40px;background:#f5f2ec;';
   d.innerHTML='<strong style="color:#6b6356;">\u00a9 2025\u20132026 MARET Davie \u2014 Tous droits r\u00e9serv\u00e9s</strong><br><br>'+
     '<strong style="color:#6b6356;">Conditions d\u2019utilisation du code :</strong><br>'+
