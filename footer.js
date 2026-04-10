@@ -4,11 +4,15 @@
   var isPortal=location.hostname==='dmaret.github.io'&&(location.pathname==='/'||location.pathname==='/index.html');
 
   // === STICKY HEADER ===
-  var header=document.querySelector('header');
+  var header=document.querySelector('header')||document.querySelector('.header')||document.querySelector('.toolbar');
   if(header){
     header.style.position='sticky';
     header.style.top='0';
     header.style.zIndex='100';
+    if(!header.style.background&&!header.style.backgroundColor){
+      var cs=window.getComputedStyle(header);
+      if(!cs.backgroundColor||cs.backgroundColor==='rgba(0, 0, 0, 0)')header.style.background='#fff';
+    }
   }
 
   // === BACK TO PORTAL BUTTON (not on portal itself) ===
