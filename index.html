@@ -135,6 +135,16 @@ const U='dmaret';
 const REPO='dmaret.github.io-';
 const CACHE_KEY='dmaret-repos-cache';
 const CACHE_DURATION=4*3600*1000;
+const FALLBACK_REPOS=[
+  {name:'dmaret.github.io',has_pages:true,description:'Portail principal — Projets GitHub Pages',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'EPI-Module-CoFo',has_pages:true,description:'Module EPI de compétences de formation',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'outil_chiffrage_atelier_1er',has_pages:true,description:'Outil de chiffrage atelier',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'DUI_V2.0',has_pages:true,description:'Document Unique Informatisé V2.0',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'Analyseur-de-courants-p-dagogiques',has_pages:true,description:'Analyseur de courants pédagogiques',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'theoriciens',has_pages:true,description:'Théoriciens',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'Travail-et-accidents-professionnels',has_pages:true,description:'Travail et accidents professionnels',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'},
+  {name:'Reservation_Le_Stade_MSP25-28B',has_pages:true,description:'Réservation Le Stade MSP25-28B',language:'HTML',stargazers_count:0,updated_at:'2026-04-21T00:00:00Z'}
+];
 
 function getCachedRepos(){
   const cached=localStorage.getItem(CACHE_KEY);
@@ -209,8 +219,9 @@ async function main(){
       status.textContent=`${found.length} projet(s) (en cache)`;
       if(cached.isExpired)grid.innerHTML=`<div style="padding:16px;background:#fef3cd;border-radius:4px;margin-bottom:16px;font-size:12px;color:#664d03;">⚠️ Cache expiré · ${e.message}</div>`+grid.innerHTML;
     }else{
-      grid.innerHTML=`<div class="empty">Erreur: ${e.message}</div>`;
-      status.textContent='';
+      const found=FALLBACK_REPOS.filter(r=>r.has_pages);
+      grid.innerHTML=found.map(r=>{const url=r.name===`${U}.github.io`?`https://${U}.github.io/`:`https://${U}.github.io/${r.name}/`;return card(r,url);}).join('');
+      status.textContent=`${found.length} projet(s) (hors-ligne)`;
     }
   }
 }
